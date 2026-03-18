@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>TTS App</title>
+
+<style>
+body { font-family: Arial; background:#f2f2f2; padding:40px; }
+.box { background:white; padding:20px; max-width:500px; margin:auto; border-radius:10px; }
+textarea { width:100%; height:120px; }
+select, button { width:100%; padding:10px; margin-top:10px; }
+.counter { font-size:12px; color:gray; text-align:right; }
+</style>
+
+</head>
+<body>
+
+<div class="box">
+<h2>Texto a Voz</h2>
+
+<form method="POST" action="/tts">
+
+<textarea name="text" id="text" maxlength="500" placeholder="Escribe tu texto..."></textarea>
+<div class="counter" id="counter">0 / 500</div>
+
+<!-- Idioma -->
+<select name="language">
+    <option value="auto">Sin traducir</option>
+    <option value="inglés">Inglés</option>
+    <option value="francés">Francés</option>
+    <option value="alemán">Alemán</option>
+</select>
+
+<select name="voice">
+    <option value="alloy">Neutra</option>
+    <option value="nova">Femenina</option>
+    <option value="verse">Masculina</option>
+    <option value="onyx">Masculina profunda</option>
+    <option value="shimmer">Femenina suave</option>
+</select>
+
+<!-- Velocidad (visual nada más) -->
+<select name="speed">
+    <option>Normal</option>
+    <option>Lento</option>
+    <option>Rápido</option>
+</select>
+
+<button type="submit">Convertir</button>
+
+</form>
+
+{% if audio_file %}
+<hr>
+<audio controls>
+<source src="/static/audio/{{ audio_file }}" type="audio/mpeg">
+</audio>
+<br><br>
+<a href="/static/audio/{{ audio_file }}" download>Descargar</a>
+{% endif %}
+
+</div>
+
+<script>
+const textarea = document.getElementById("text");
+const counter = document.getElementById("counter");
+
+textarea.addEventListener("input", () => {
+    counter.textContent = textarea.value.length + " / 500";
+});
+</script>
+
+</body>
+</html>
