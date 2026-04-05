@@ -3,6 +3,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VozText - Texto a Voz</title>
 
 <!-- Bootstrap -->
@@ -63,10 +64,10 @@ body {
 <img src="{{ url_for('static', filename='assets/logo_universidad.png') }}" class="logo left">
 <img src="{{ url_for('static', filename='assets/logo_voz.jpeg') }}" class="logo right">
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4 w-100" style="max-width: 500px;">
+<div class="container d-flex justify-content-center align-items-center min-vh-100 p-3">
+<div class="card p-3 p-md-4 w-100" style="max-width: 500px;">
 
-```
+
     <h3 class="text-center mb-3">
         <i class="fas fa-microphone"></i> VozText
     </h3>
