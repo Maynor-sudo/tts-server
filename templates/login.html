@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+{% if error %}
+<div class="alert alert-danger text-center">
+{{ error }}
+</div>
+{% endif %}
+
+<link rel="icon" href="{{ url_for('static', filename='assets/logo_voz.jpeg') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+body {
+    background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<img src="{{ url_for('static', filename='assets/logo_universidad.png') }}" class="logo left">
+<img src="{{ url_for('static', filename='assets/logo_voz.jpeg') }}" class="logo right">
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+<div class="card p-4" style="max-width:400px; width:100%;">
+
+<h3 class="text-center">Login</h3>
+
+<form method="POST">
+<input name="username" class="form-control mb-3" placeholder="Usuario">
+<input name="password" type="password" class="form-control mb-3" placeholder="Contraseña">
+
+<button class="btn btn-primary w-100">Entrar</button>
+</form>
+
+<p class="text-center mt-3">
+<a href="/register">Crear cuenta</a>
+</p>
+
+</div>
+</div>
+
+</body>
+</html>

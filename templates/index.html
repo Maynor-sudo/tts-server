@@ -1,19 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VozText - Texto a Voz</title>
 
-<!-- Bootstrap -->
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="icon" href="{{ url_for('static', filename='assets/logo_voz.jpeg') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-<!-- Icons -->
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -23,10 +17,10 @@ body {
     font-family: 'Segoe UI', sans-serif;
 }
 </style>
-
 </head>
 
 <body>
+
 <!-- BOTÓN SIDEBAR -->
 <button id="menuBtn" class="menu-btn">
     <i class="fas fa-bars"></i>
@@ -34,113 +28,138 @@ body {
 
 <!-- SIDEBAR -->
 <div id="sidebar" class="sidebar">
-
     <div class="sidebar-header">
         <h4>VozText</h4>
         <p>Proyecto Final</p>
     </div>
 
     <div class="sidebar-content">
-		<p><strong>Programacion para Sistemas Abiertos II</strong></p>
-		<p><strong>Ing. Luis Henriquez Valle Yanes</strong></p>
         <p><strong>Grupo 9</strong></p>
-
-        <p>Alejandra Maria Cruz Arita<br>202210010003</p>
-        <p>Maynor Josue Martinez Villanueva<br>202110010557</p>
-        <p>Jeremias Jesus Mejia Dominguez<br>202210060665</p>
-        <p>Edwin Ariel Sarmiento Juares<br>202120120030</p>
+        <p>Alejandra Cruz</p>
+        <p>Maynor Martinez</p>
+        <p>Jeremias Mejia</p>
+        <p>Edwin Sarmiento</p>
     </div>
 
     <div class="sidebar-footer">
         <img src="{{ url_for('static', filename='assets/logo_universidad.png') }}" class="uth-logo">
     </div>
-
 </div>
 
 <div id="overlay" class="overlay"></div>
 
 <!-- LOGOS -->
-
 <img src="{{ url_for('static', filename='assets/logo_universidad.png') }}" class="logo left">
 <img src="{{ url_for('static', filename='assets/logo_voz.jpeg') }}" class="logo right">
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100 p-3">
-<div class="card p-3 p-md-4 w-100" style="max-width: 500px;">
+<div class="card p-3 w-100" style="max-width: 500px;">
 
+<!-- USUARIO -->
+<div class="text-center mb-3">
 
-    <h3 class="text-center mb-3">
-        <i class="fas fa-microphone"></i> VozText - UTH
-    </h3>
+{% if user %}
+    <span class="badge bg-info">Hola {{ user[0] }}</span>
 
-    <form method="POST" action="/tts">
-
-        <!-- TEXTO -->
-        <textarea name="text" id="text" maxlength="500" class="form-control mb-2"
-            placeholder="Escribe tu texto aquí..."></textarea>
-
-        <div class="counter text-end mb-3" id="counter">0 / 500</div>
-
-        <!-- IDIOMA -->
-        <label><i class="fas fa-language"></i> Idioma destino</label>
-        <select name="language" class="form-select mb-3">
-            <option value="auto">Sin traducir</option>
-            <option value="inglés">Inglés</option>
-            <option value="francés">Francés</option>
-            <option value="alemán">Alemán</option>
-        </select>
-
-        <!-- VOZ -->
-        <label><i class="fas fa-user"></i> Tipo de voz</label>
-        <select name="voice" class="form-select mb-3">
-            <option value="alloy">Neutra</option>
-            <option value="nova">Femenina</option>
-            <option value="verse">Masculina</option>
-            <option value="onyx">Masculina profunda</option>
-            <option value="shimmer">Femenina suave</option>
-        </select>
-
-        <!-- VELOCIDAD -->
-        <label><i class="fas fa-tachometer-alt"></i> Velocidad</label>
-        <select class="form-select mb-4">
-            <option>Normal</option>
-            <option>Lento</option>
-            <option>Rápido</option>
-        </select>
-
-        <!-- BOTÓN -->
-        <button type="submit" class="btn btn-primary w-100">
-            <i class="fas fa-play"></i> Convertir a voz
-        </button>
-
-        <!-- LOADER -->
-        <div class="loader" id="loader">
-            <span></span>
-            <span></span>
-            <span></span>
-            <p>Generando audio...</p>
-        </div>
-
-    </form>
-
-    {% if audio_file %}
-    <div class="mt-4">
-        <h5><i class="fas fa-headphones"></i> Resultado</h5>
-
-        <audio controls>
-            <source src="/static/audio/{{ audio_file }}" type="audio/mpeg">
-        </audio>
-
-        <a href="/static/audio/{{ audio_file }}" download class="btn btn-success w-100 mt-2">
-            <i class="fas fa-download"></i> Descargar audio
-        </a>
-    </div>
+    {% if premium %}
+        <span class="badge bg-success">Premium</span>
+    {% else %}
+        <a href="/upgrade" class="btn btn-warning btn-sm">Hazte Premium</a>
     {% endif %}
 
-</div>
+    <a href="/logout" class="btn btn-danger btn-sm">Salir</a>
+
+{% else %}
+   <!--  <a href="/login" class="btn btn-light btn-sm">Login</a> -->
+    <!-- <a href="/register" class="btn btn-light btn-sm">Registro</a> -->
+{% endif %}
 
 </div>
 
-<!-- JS EXTERNO -->
+<h3 class="text-center mb-3">
+<i class="fas fa-microphone"></i> VozText
+</h3>
+
+<p class="text-center">
+{% if premium %}
+<p class="text-center">Audios: ∞</p>
+{% else %}
+<p class="text-center">Audios: {{ audios }} / 3</p>
+{% endif %}
+</p>
+
+{% if error %}
+<div class="alert alert-danger text-center">
+{{ error }}
+</div>
+{% endif %}
+
+<form method="POST" action="/tts">
+
+<textarea name="text" id="text" maxlength="500" class="form-control mb-2"
+placeholder="Escribe tu texto..."></textarea>
+
+<div class="counter text-end mb-3" id="counter">0 / 500</div>
+
+<label>Idioma</label>
+<select name="language" class="form-select mb-3">
+
+{% if premium %}
+<option value="auto">Español</option>
+<option value="inglés">Inglés</option>
+<option value="francés">Francés</option>
+<option value="alemán">Alemán</option>
+<option value="italiano">Italiano</option>
+{% else %}
+<option value="auto">Español</option>
+<option value="inglés">Inglés 🔒</option>
+<option value="francés">Francés 🔒</option>
+<option value="alemán">Alemán 🔒</option>
+<option value="italiano">Italiano 🔒</option>
+{% endif %}
+
+</select>
+</select>
+
+<label>Voz</label>
+<select name="voice" class="form-select mb-3">
+<option value="alloy">Neutra</option>
+<option value="nova">Femenina</option>
+<option value="verse">Masculina</option>
+</select>
+
+<button type="submit" class="btn btn-primary w-100">
+Convertir
+</button>
+
+{% if not premium %}
+<a href="/upgrade" class="btn btn-warning w-100 mt-3">
+🔥 Desbloquear Premium - $5
+</a>
+{% endif %}
+
+<div class="loader" id="loader">
+<span></span><span></span><span></span>
+<p>Generando audio...</p>
+</div>
+
+</form>
+
+{% if audio_file %}
+<div class="mt-4">
+<audio controls>
+<source src="/static/audio/{{ audio_file }}">
+</audio>
+
+<a href="/static/audio/{{ audio_file }}" download class="btn btn-success w-100 mt-2">
+Descargar
+</a>
+</div>
+{% endif %}
+
+</div>
+</div>
+
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 </body>
